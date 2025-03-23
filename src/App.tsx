@@ -3,9 +3,11 @@ import { Sidebar } from "./components/Sidebar";
 import { Dashboard } from "./pages/Dashboard";
 import { Header } from "./components/Header";
 import  FarmerRegistration  from "./pages/FarmerRegistration";
-import { FarmerProfile } from "./pages/FarmerProfile";
-import { AdminPanel } from "./pages/AdminPanel";
+import  FarmerProfile  from "./pages/FarmerProfile";
+import DataCollection from "./pages/DataCollection";
 import { Login } from "./pages/auth/Login";
+import { AdminPanel } from "./pages/AdminPanel";
+import Analytics from "./pages/Analytics";
 
 import './index.css'; 
 export function App() {
@@ -24,6 +26,8 @@ export function App() {
           {currentPage === "farmer-registration" && <FarmerRegistration />}
           {currentPage === "farmer-profile" && <FarmerProfile />}
           {currentPage === "admin" && <AdminPanel />}
+          {currentPage === "data-collection" && <DataCollection />}
+          {currentPage === "analytics" && <Analytics />}
         </main>
       </div>
     </div>
