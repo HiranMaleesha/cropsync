@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Sidebar } from "./components/Sidebar";
 import { Dashboard } from "./pages/Dashboard";
 import { Header } from "./components/Header";
-import { FarmerRegistration } from "./pages/FarmerRegistration";
+import  FarmerRegistration  from "./pages/FarmerRegistration";
 import { FarmerProfile } from "./pages/FarmerProfile";
 import { AdminPanel } from "./pages/AdminPanel";
 import { Login } from "./pages/auth/Login";
+
 import './index.css'; 
 export function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
