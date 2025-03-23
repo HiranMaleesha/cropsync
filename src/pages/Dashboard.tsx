@@ -141,7 +141,7 @@ export function Dashboard() {
           <button className="flex flex-col items-center justify-center bg-purple-50 rounded-lg p-4 hover:bg-purple-100">
             <BarChart3 className="h-8 w-8 text-purple-600 mb-2" />
             <span className="text-sm font-medium text-gray-700">
-              View Analytics
+              View Analyticss
             </span>
           </button>
         </div>
