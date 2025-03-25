@@ -36,60 +36,43 @@ const FormField = ({
   return (
     <div style={{ marginBottom: "16px" }}>
       <div style={{ display: "flex", alignItems: "center", marginBottom: "4px" }}>
-        <label htmlFor={id} style={{ fontWeight: "bold" }}>{label}</label>
+        <label htmlFor={id} style={{ fontWeight: "bold", flex: 1 }}>{label}</label>
         {tooltip && (
-          <div style={{ marginLeft: "5px", position: "relative", display: "inline-block" }}>
+          <div style={{ position: "relative", display: "inline-block" }}>
             <HelpCircle size={16} />
-            <div
-              style={{
-                display: "none",
-                position: "absolute",
-                backgroundColor: "#333",
-                color: "#fff",
-                padding: "5px",
-                borderRadius: "4px",
-                top: "-30px",
-                left: "10px",
-                fontSize: "12px",
-              }}
-            >
-              {tooltip}
-            </div>
           </div>
         )}
       </div>
       {type === "select" ? (
-        <select id={id} style={{ width: "100%", padding: "8px", borderRadius: "5px" }}>
+        <select id={id} style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc" }}>
           <option value="">Select an option</option>
           {options?.map((option) => (
             <option key={option} value={option}>{option}</option>
           ))}
         </select>
       ) : type === "searchSelect" ? (
-        <div>
+        <div style={{ position: "relative" }}>
           <input
             type="text"
-            style={{ width: "100%", padding: "8px", borderRadius: "5px" }}
+            style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc" }}
             placeholder="Search..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onFocus={() => setIsOpen(true)}
           />
           {isOpen && searchOptions && (
-            <div style={{ background: "#fff", border: "1px solid #ccc", borderRadius: "5px", position: "absolute", width: "100%" }}>
+            <div style={{
+              position: "absolute", background: "#fff", border: "1px solid #ccc",
+              borderRadius: "5px", width: "100%", zIndex: 10
+            }}>
               {searchOptions
-                .filter((option) =>
+                .filter(option =>
                   option.label.toLowerCase().includes(searchTerm.toLowerCase())
                 )
-                .map((option) => (
-                  <div
-                    key={option.id}
+                .map(option => (
+                  <div key={option.id}
                     style={{ padding: "5px", cursor: "pointer" }}
-                    onClick={() => {
-                      setSearchTerm(option.label);
-                      setIsOpen(false);
-                    }}
-                  >
+                    onClick={() => { setSearchTerm(option.label); setIsOpen(false); }}>
                     {option.label}
                   </div>
                 ))}
@@ -101,7 +84,7 @@ const FormField = ({
           type={type}
           id={id}
           placeholder={placeholder}
-          style={{ width: "100%", padding: "8px", borderRadius: "5px" }}
+          style={{ width: "100%", padding: "8px", borderRadius: "5px", border: "1px solid #ccc" }}
         />
       )}
     </div>
@@ -110,8 +93,8 @@ const FormField = ({
 
 // FarmerDataForm Component
 const FarmerDataForm = () => (
-  <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 2px 5px rgba(0,0,0,0.1)" }}>
-    <h2 style={{ color: "green", borderBottom: "1px solid #ccc", paddingBottom: "5px" }}>Monthly Data by Farmers</h2>
+  <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 2px 5px rgba(0,0,0,0.1)", flex: 1 }}>
+    <h2 style={{ color: "green", borderBottom: "2px solid #ccc", paddingBottom: "5px" }}>Monthly Data by Farmers</h2>
     <form>
       <FormField label="Farmer ID" id="farmer-id" type="searchSelect" searchOptions={farmers} />
       <FormField label="Crop Name" id="farmer-crop-name" type="select" options={crops} />
@@ -129,8 +112,8 @@ const FarmerDataForm = () => (
 
 // CropDataForm Component
 const CropDataForm = () => (
-  <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 2px 5px rgba(0,0,0,0.1)" }}>
-    <h2 style={{ color: "green", borderBottom: "1px solid #ccc", paddingBottom: "5px" }}>Monthly Data by Crop</h2>
+  <div style={{ background: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 2px 5px rgba(0,0,0,0.1)", flex: 1 }}>
+    <h2 style={{ color: "green", borderBottom: "2px solid #ccc", paddingBottom: "5px" }}>Monthly Data by Crop</h2>
     <form>
       <FormField label="Crop Name" id="crop-name" type="select" options={crops} />
       <FormField label="Region" id="crop-region" type="select" options={regions} />
@@ -148,7 +131,7 @@ const CropDataForm = () => (
 
 const DataCollection = () => {
   return (
-    <div style={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
+    <div style={{ maxWidth: "1000px", margin: "auto", padding: "20px" }}>
       <header style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
         <Leaf color="green" size={32} />
         <h1 style={{ fontSize: "24px", color: "green" }}>CropSync Data Collection</h1>

@@ -9,6 +9,7 @@ import { Login } from "./pages/auth/Login";
 import FDashboard from "./pages/AdminPanel";
 import Analytics from "./pages/Analytics";
 import Frecommendations from "./pages/Help&Support";
+import { Report } from "./pages/Report";
 
 import './index.css'; 
 export function App() {
@@ -30,6 +31,7 @@ export function App() {
           {currentPage === "data-collection" && <DataCollection />}
           {currentPage === "analytics" && <Analytics />}
           {currentPage === "help" && <Frecommendations />}
+          {currentPage === "reports" && <Report />}
         </main>
       </div>
     </div>
