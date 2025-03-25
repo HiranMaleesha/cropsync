@@ -1,18 +1,8 @@
 import React from "react";
 
-const sidebarStyle: React.CSSProperties = {
-  width: "250px",
-  backgroundColor: "#3c6e30",
-  color: "white",
-  padding: "20px 0",
-  display: "flex",
-  flexDirection: "column",
-  minHeight: "100vh",
-};
-
 const mainContentStyle: React.CSSProperties = {
-  flexGrow: 1,
-  padding: "0",
+  width: "100vw", // Full width of viewport
+  minHeight: "100vh",
   display: "flex",
   flexDirection: "column",
 };
@@ -103,22 +93,6 @@ const CropCard = ({
   </div>
 );
 
-const Sidebar = () => (
-  <div style={sidebarStyle}>
-    <div style={{ padding: "0 20px 20px", borderBottom: "1px solid rgba(255,255,255,0.2)", marginBottom: "20px" }}>
-      <div style={{ fontSize: "24px", fontWeight: "bold" }}>CropSync</div>
-      <div style={{ fontSize: "14px", opacity: 0.8 }}>Smart farming at your fingertips</div>
-    </div>
-    <div style={{ flexGrow: 1 }}>
-      {["📊 Dashboard", "🌱 Recommendations", "📈 Farm Data", "👨‍🌾 Farmer Profile", "🗓️ Schedule", "⚙️ Settings"].map((item, index) => (
-        <div key={index} style={{ display: "flex", alignItems: "center", padding: "12px 20px", cursor: "pointer", transition: "background-color 0.2s" }}>
-          {item}
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
 const Header = () => (
   <div style={headerStyle}>
     <div style={{ fontSize: "20px", fontWeight: 500, color: "#333" }}>Planting Recommendations</div>
@@ -133,17 +107,14 @@ const Header = () => (
 
 const Frecommendations = () => {
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      <Sidebar />
-      <div style={mainContentStyle}>
-        <Header />
-        <div style={recommendationsHeaderStyle}>Recommendations for April 2025</div>
-        <div style={cardsContainerStyle}>
-          <CropCard name="Tomato" priority="High Priority" priorityColor="#ffebee" seeds="200g" plantingTime="First week of April" yieldInfo="65kg per 10 sq. meters" image="/api/placeholder/400/320" />
-          <CropCard name="Corn" priority="Medium Priority" priorityColor="#fff3e0" seeds="1.5kg" plantingTime="Mid-April" yieldInfo="35kg per 10 sq. meters" image="/api/placeholder/400/320" />
-          <CropCard name="Carrot" priority="High Priority" priorityColor="#ffebee" seeds="50g" plantingTime="Early April" yieldInfo="25kg per 10 sq. meters" image="/api/placeholder/400/320" />
-          <CropCard name="Lettuce" priority="Low Priority" priorityColor="#e8f5e9" seeds="25g" plantingTime="Throughout April" yieldInfo="15kg per 10 sq. meters" image="/api/placeholder/400/320" />
-        </div>
+    <div style={mainContentStyle}>
+      <Header />
+      <div style={recommendationsHeaderStyle}>Recommendations for April 2025</div>
+      <div style={cardsContainerStyle}>
+        <CropCard name="Tomato" priority="High Priority" priorityColor="#ffebee" seeds="200g" plantingTime="First week of April" yieldInfo="65kg per 10 sq. meters" image="/api/placeholder/400/320" />
+        <CropCard name="Corn" priority="Medium Priority" priorityColor="#fff3e0" seeds="1.5kg" plantingTime="Mid-April" yieldInfo="35kg per 10 sq. meters" image="/api/placeholder/400/320" />
+        <CropCard name="Carrot" priority="High Priority" priorityColor="#ffebee" seeds="50g" plantingTime="Early April" yieldInfo="25kg per 10 sq. meters" image="/api/placeholder/400/320" />
+        <CropCard name="Lettuce" priority="Low Priority" priorityColor="#e8f5e9" seeds="25g" plantingTime="Throughout April" yieldInfo="15kg per 10 sq. meters" image="/api/placeholder/400/320" />
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import  FarmerRegistration  from "./pages/FarmerRegistration";
 import  FarmerProfile  from "./pages/FarmerProfile";
 import DataCollection from "./pages/DataCollection";
 import { Login } from "./pages/auth/Login";
-import FDashboard from "./pages/AdminPanel";
+import {AdminPanel} from "./pages/AdminPanel";
 import Analytics from "./pages/Analytics";
 import Frecommendations from "./pages/Help&Support";
 import { Report } from "./pages/Report";
@@ -27,7 +27,7 @@ export function App() {
           {currentPage === "dashboard" && <Dashboard />}
           {currentPage === "farmer-registration" && <FarmerRegistration />}
           {currentPage === "farmer-profile" && <FarmerProfile />}
-          {currentPage === "admin" && <FDashboard />}
+          {currentPage === "admin" && <AdminPanel />}
           {currentPage === "data-collection" && <DataCollection />}
           {currentPage === "analytics" && <Analytics />}
           {currentPage === "help" && <Frecommendations />}
