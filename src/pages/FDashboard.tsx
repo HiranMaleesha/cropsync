@@ -1,134 +1,168 @@
-import React from "react";
+import React from 'react';
+import { Sprout, LineChart, UserCircle, LeafIcon, SunIcon } from 'lucide-react';
 
-const FDashboard: React.FC = () => {
-  const containerStyle: React.CSSProperties = {
-    display: "flex",
-    minHeight: "100vh",
-    backgroundColor: "#f8f9fa",
+interface FDashboardProps {
+  onNavigate: (page: string) => void;
+}
+
+export function FDashboard({ onNavigate }: FDashboardProps) {
+  const styles = {
+    container: {
+      minHeight: '100vh',
+      backgroundColor: '#F0FDF4',
+    },
+    mainContent: {
+      maxWidth: '1200px',
+      margin: '0 auto',
+      padding: '30px',
+      width: '100%',
+    },
+    header: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      marginBottom: '2rem',
+    },
+    headerIcon: {
+      color: '#059669',
+      width: '2rem',
+      height: '2rem',
+    },
+    title: {
+      fontSize: '1.875rem',
+      fontWeight: 'bold',
+      color: '#065F46',
+    },
+    weatherCard: {
+      backgroundColor: '#059669',
+      color: 'white',
+      borderRadius: '12px',
+      padding: '20px',
+      marginBottom: '25px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '15px',
+    },
+    weatherIcon: {
+      backgroundColor: 'rgba(255,255,255,0.2)',
+      borderRadius: '50%',
+      padding: '10px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    card: {
+      backgroundColor: 'white',
+      borderRadius: '12px',
+      boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
+      padding: '20px',
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '15px',
+      cursor: 'pointer',
+      transition: 'transform 0.2s, box-shadow 0.2s',
+      gap: '15px',
+    },
+    cardIcon: {
+      width: '50px',
+      height: '50px',
+      borderRadius: '10px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    cardTitle: {
+      margin: '0 0 5px 0',
+      fontSize: '18px',
+      color: '#111827',
+      fontWeight: '500',
+    },
+    cardDescription: {
+      margin: 0,
+      color: '#6B7280',
+      fontSize: '14px',
+    },
   };
 
-  const sidebarStyle: React.CSSProperties = {
-    width: "250px",
-    backgroundColor: "#3c6e30",
-    color: "white",
-    padding: "20px 0",
-    display: "flex",
-    flexDirection: "column",
-  };
-
-  const sidebarItemStyle: React.CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    padding: "12px 20px",
-    cursor: "pointer",
-    transition: "background-color 0.2s",
-  };
-
-  const sidebarItemHover = {
-    backgroundColor: "rgba(255,255,255,0.1)",
-  };
-
-  const activeItemStyle = {
-    backgroundColor: "rgba(255,255,255,0.2)",
-  };
-
-  const mainContentStyle: React.CSSProperties = {
-    flexGrow: 1,
-    padding: "30px",
-  };
-
-  const weatherCardStyle: React.CSSProperties = {
-    backgroundColor: "#4d8a3d",
-    color: "white",
-    borderRadius: "10px",
-    padding: "20px",
-    marginBottom: "25px",
-    display: "flex",
-    alignItems: "center",
-  };
-
-  const cardStyle: React.CSSProperties = {
-    backgroundColor: "white",
-    borderRadius: "10px",
-    boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
-    padding: "20px",
-    display: "flex",
-    alignItems: "center",
-    marginBottom: "15px",
-    cursor: "pointer",
-    transition: "transform 0.2s, box-shadow 0.2s",
-  };
-
-  const cardHoverStyle = {
-    transform: "translateY(-3px)",
-    boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-  };
-
-  const cardIconStyle = {
-    width: "50px",
-    height: "50px",
-    borderRadius: "8px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: "15px",
-  };
+  const actionCards = [
+    {
+      icon: <Sprout size={24} />,
+      title: 'View Recommendations',
+      description: 'Crop insights and weekly tasks',
+      bgColor: '#F0FDF4',
+      iconColor: '#059669',
+      navigateTo: 'help',
+    },
+    {
+      icon: <LineChart size={24} />,
+      title: 'My Farm Data',
+      description: 'Fields, crops, and analytics',
+      bgColor: '#EFF6FF',
+      iconColor: '#3B82F6',
+      navigateTo: '', // can add route later if needed
+    },
+    {
+      icon: <UserCircle size={24} />,
+      title: 'Farmer Profile',
+      description: 'Your account and preferences',
+      bgColor: '#FEF3C7',
+      iconColor: '#D97706',
+      navigateTo: 'reports',
+    },
+  ];
 
   return (
-    <div style={containerStyle}>
-      <div style={sidebarStyle}>
-        <div style={{ padding: "0 20px 20px", borderBottom: "1px solid rgba(255,255,255,0.2)", marginBottom: "20px" }}>
-          <div style={{ fontSize: "24px", fontWeight: "bold" }}>CropSync</div>
-          <div style={{ fontSize: "14px", opacity: 0.8 }}>Smart farming at your fingertips</div>
-        </div>
-        <div>
-          {[
-            { icon: "📊", label: "Dashboard", active: true },
-            { icon: "🌱", label: "Recommendations" },
-            { icon: "📈", label: "Farm Data" },
-            { icon: "👨‍🌾", label: "Farmer Profile" },
-            { icon: "🗓️", label: "Schedule" },
-            { icon: "⚙️", label: "Settings" },
-          ].map((item, index) => (
-            <div
-              key={index}
-              style={{
-                ...sidebarItemStyle,
-                ...(item.active ? activeItemStyle : {}),
-              }}
-            >
-              <div style={{ width: "24px", height: "24px", marginRight: "15px" }}>{item.icon}</div>
-              {item.label}
-            </div>
-          ))}
-        </div>
-      </div>
+    <div style={styles.container}>
+      <div style={styles.mainContent}>
+        <header style={styles.header}>
+          <LeafIcon style={styles.headerIcon} />
+          <h1 style={styles.title}>CropSync Dashboard</h1>
+        </header>
 
-      <div style={mainContentStyle}>
-        <div style={weatherCardStyle}>
-          <div style={{ fontSize: "28px", marginRight: "15px" }}>☀️</div>
+        <div style={styles.weatherCard}>
+          <div style={styles.weatherIcon}>
+            <SunIcon size={32} color="white" />
+          </div>
           <div>
-            <h2 style={{ margin: "0 0 5px 0", fontSize: "20px" }}>Good morning, Thomas</h2>
-            <div style={{ fontSize: "14px" }}>72°F | Clear skies | Wind: 5 mph NE</div>
+            <h2 style={{ margin: '0 0 5px 0', fontSize: '20px' }}>
+              Good morning, Thomas
+            </h2>
+            <div style={{ fontSize: '14px', opacity: 0.9 }}>
+              72°F | Clear skies | Wind: 5 mph NE
+            </div>
           </div>
         </div>
 
-        {[
-          { icon: "🌱", title: "View Recommendations", description: "Crop insights and weekly tasks", bgColor: "#e8f5e9", color: "#4caf50" },
-          { icon: "📊", title: "My Farm Data", description: "Fields, crops, and analytics", bgColor: "#e3f2fd", color: "#2196f3" },
-          { icon: "👨‍🌾", title: "Farmer Profile", description: "Your account and preferences", bgColor: "#fff3e0", color: "#ff9800" },
-        ].map((card, index) => (
-          <div key={index} style={cardStyle}>
-            <div style={{ ...cardIconStyle, backgroundColor: card.bgColor, color: card.color }}>{card.icon}</div>
+        {actionCards.map((card, index) => (
+          <div
+            key={index}
+            style={styles.card}
+            onClick={() => card.navigateTo && onNavigate(card.navigateTo)}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = '';
+              e.currentTarget.style.boxShadow = '';
+            }}
+          >
+            <div
+              style={{
+                ...styles.cardIcon,
+                backgroundColor: card.bgColor,
+                color: card.iconColor,
+              }}
+            >
+              {card.icon}
+            </div>
             <div>
-              <h3 style={{ margin: "0 0 5px 0", fontSize: "18px", color: "#333" }}>{card.title}</h3>
-              <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{card.description}</p>
+              <h3 style={styles.cardTitle}>{card.title}</h3>
+              <p style={styles.cardDescription}>{card.description}</p>
             </div>
           </div>
         ))}
       </div>
     </div>
   );
-};
-
-export default FDashboard;
+}

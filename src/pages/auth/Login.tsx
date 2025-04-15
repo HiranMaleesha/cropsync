@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Leaf } from "lucide-react";
 
 interface LoginProps {
-  onLogin: () => void;
+  onLogin: (role: "agent" | "farmer") => void;
 }
 
 export function Login({ onLogin }: LoginProps) {
+  const [selectedRole, setSelectedRole] = useState<"agent" | "farmer">("agent");
+
+  const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (value === "farmer" || value === "agent") {
+      setSelectedRole(value);
+    }
+  };
+
+  const handleLoginClick = () => {
+    onLogin(selectedRole);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -23,28 +36,24 @@ export function Login({ onLogin }: LoginProps) {
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
             <div>
-              <label
-                htmlFor="role"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700">
                 Login As
               </label>
               <select
                 id="role"
                 name="role"
+                value={selectedRole}
+                onChange={handleRoleChange}
                 className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
               >
-                <option>Agricultural Agent</option>
-                <option>Farmer</option>
+                <option value="agent">Agricultural Agent</option>
+                <option value="farmer">Farmer</option>
               </select>
             </div>
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Username or Email
               </label>
               <div className="mt-1">
@@ -59,10 +68,7 @@ export function Login({ onLogin }: LoginProps) {
               </div>
             </div>
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <div className="mt-1">
@@ -84,26 +90,20 @@ export function Login({ onLogin }: LoginProps) {
                   type="checkbox"
                   className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
                 />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Remember me
                 </label>
               </div>
               <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-medium text-green-600 hover:text-green-500"
-                >
+                <a href="#" className="font-medium text-green-600 hover:text-green-500">
                   Forgot your password?
                 </a>
               </div>
             </div>
             <div>
               <button
-                type="button"
-                onClick={onLogin}
+                type="submit"
+                onClick={handleLoginClick}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               >
                 Sign in
@@ -120,24 +120,9 @@ export function Login({ onLogin }: LoginProps) {
               </div>
             </div>
             <div className="mt-6 grid grid-cols-3 gap-3">
-              <button
-                type="button"
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                English
-              </button>
-              <button
-                type="button"
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                සිංහල
-              </button>
-              <button
-                type="button"
-                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                தமிழ்
-              </button>
+              <button type="button" className="btn-lang">English</button>
+              <button type="button" className="btn-lang">සිංහල</button>
+              <button type="button" className="btn-lang">தமிழ்</button>
             </div>
           </div>
         </div>
