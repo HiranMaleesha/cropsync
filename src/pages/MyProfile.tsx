@@ -8,7 +8,7 @@ import {
   TreesIcon,
   RulerIcon,
 } from 'lucide-react'
-export function Report() {
+export function MyProfile() {
   const farmerData = {
     id: 'F001',
     name: 'John Smith',

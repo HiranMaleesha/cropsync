@@ -1,15 +1,17 @@
 import React from "react";
-import { Globe } from "lucide-react";
+import { Leaf } from "lucide-react";
+
 interface LoginProps {
   onLogin: () => void;
 }
+
 export function Login({ onLogin }: LoginProps) {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
           <div className="w-16 h-16 rounded-full bg-green-600 flex items-center justify-center">
-            <span className="text-2xl text-white font-bold">CS</span>
+            <Leaf color="white" size={28} />
           </div>
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -35,8 +37,7 @@ export function Login({ onLogin }: LoginProps) {
                 className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm rounded-md"
               >
                 <option>Agricultural Agent</option>
-                <option>Administrator</option>
-                <option>Supervisor</option>
+                <option>Farmer</option>
               </select>
             </div>
             <div>

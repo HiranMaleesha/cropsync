@@ -1,19 +1,15 @@
 import React from "react";
 import {
-  BarChart3,
   TrendingUp,
   Users,
   Leaf,
   AlertTriangle,
   DollarSign,
-  UserPlus,
-  ClipboardList,
-  FileText,
 } from "lucide-react";
 import { StatCard } from "../components/StatCard";
 import { RegionalMap } from "../components/RegionalMap";
 import { ActivityFeed } from "../components/ActivityFeed";
-import { ChartSection } from "../components/ChartSection";
+
 export function Dashboard() {
   return (
     <div className="space-y-6">
@@ -28,6 +24,7 @@ export function Dashboard() {
           </select>
         </div>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         <StatCard
           title="Total Farmers"
@@ -61,6 +58,7 @@ export function Dashboard() {
           icon={<DollarSign className="text-green-600" />}
         />
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <div className="bg-white rounded-lg shadow p-6 h-full">
@@ -85,65 +83,6 @@ export function Dashboard() {
             </button>
           </div>
           <ActivityFeed />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-medium text-gray-800">
-              Crop Production Trends
-            </h2>
-            <select className="border border-gray-300 rounded-md text-sm px-3 py-1 bg-white">
-              <option>All Crops</option>
-              <option>Rice</option>
-              <option>Corn</option>
-              <option>Vegetables</option>
-            </select>
-          </div>
-          <ChartSection type="bar" />
-        </div>
-        <div className="bg-white rounded-lg shadow p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-medium text-gray-800">
-              Harvest vs. Sales
-            </h2>
-            <select className="border border-gray-300 rounded-md text-sm px-3 py-1 bg-white">
-              <option>Last 6 Months</option>
-              <option>Last Year</option>
-            </select>
-          </div>
-          <ChartSection type="line" />
-        </div>
-      </div>
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-medium text-gray-800">Quick Actions</h2>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button className="flex flex-col items-center justify-center bg-green-50 rounded-lg p-4 hover:bg-green-100">
-            <UserPlus className="h-8 w-8 text-green-600 mb-2" />
-            <span className="text-sm font-medium text-gray-700">
-              Register Farmer
-            </span>
-          </button>
-          <button className="flex flex-col items-center justify-center bg-blue-50 rounded-lg p-4 hover:bg-blue-100">
-            <ClipboardList className="h-8 w-8 text-blue-600 mb-2" />
-            <span className="text-sm font-medium text-gray-700">
-              Enter Monthly Data
-            </span>
-          </button>
-          <button className="flex flex-col items-center justify-center bg-amber-50 rounded-lg p-4 hover:bg-amber-100">
-            <FileText className="h-8 w-8 text-amber-600 mb-2" />
-            <span className="text-sm font-medium text-gray-700">
-              Generate Report
-            </span>
-          </button>
-          <button className="flex flex-col items-center justify-center bg-purple-50 rounded-lg p-4 hover:bg-purple-100">
-            <BarChart3 className="h-8 w-8 text-purple-600 mb-2" />
-            <span className="text-sm font-medium text-gray-700">
-              View Analyticss
-            </span>
-          </button>
         </div>
       </div>
     </div>

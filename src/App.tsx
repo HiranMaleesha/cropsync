@@ -8,8 +8,8 @@ import DataCollection from "./pages/DataCollection";
 import { Login } from "./pages/auth/Login";
 import {AdminPanel} from "./pages/AdminPanel";
 import Analytics from "./pages/Analytics";
-import Frecommendations from "./pages/Help&Support";
-import { Report } from "./pages/Report";
+import Frecommendations from "./pages/Frecommendations";
+import { MyProfile } from "./pages/MyProfile";
 
 import './index.css'; 
 export function App() {
@@ -31,7 +31,7 @@ export function App() {
           {currentPage === "data-collection" && <DataCollection />}
           {currentPage === "analytics" && <Analytics />}
           {currentPage === "help" && <Frecommendations />}
-          {currentPage === "reports" && <Report />}
+          {currentPage === "reports" && <MyProfile />}
         </main>
       </div>
     </div>
