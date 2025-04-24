@@ -1,11 +1,15 @@
 import React from 'react';
 import { Sprout, LineChart, UserCircle, LeafIcon, SunIcon } from 'lucide-react';
+import { useAuth } from '../firebase/auth'; // Adjust the path if needed
+
+
 
 interface FDashboardProps {
   onNavigate: (page: string) => void;
 }
 
 export function FDashboard({ onNavigate }: FDashboardProps) {
+  const { currentUser } = useAuth();
   const styles = {
     container: {
       minHeight: '100vh',
@@ -124,9 +128,10 @@ export function FDashboard({ onNavigate }: FDashboardProps) {
             <SunIcon size={32} color="white" />
           </div>
           <div>
-            <h2 style={{ margin: '0 0 5px 0', fontSize: '20px' }}>
-              Good morning, Thomas
-            </h2>
+          <h2 style={{ margin: '0 0 5px 0', fontSize: '20px' }}>
+  hello, {currentUser?.displayName || "Farmer"}
+</h2>
+
             <div style={{ fontSize: '14px', opacity: 0.9 }}>
               72°F | Clear skies | Wind: 5 mph NE
             </div>

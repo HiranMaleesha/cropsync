@@ -10,8 +10,9 @@ import { FDashboard } from "./pages/FDashboard";
 import Analytics from "./pages/Analytics";
 import Frecommendations from "./pages/Frecommendations";
 import { MyProfile } from "./pages/MyProfile";
-
+import { Routes, Route, Navigate } from "react-router-dom";
 import "./index.css";
+import { AuthProvider } from "./firebase/auth";
 
 export function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -30,7 +31,6 @@ export function App() {
     );
   }
 
-  // Pages accessible by role
   const agentPages = {
     dashboard: <Dashboard />,
     "farmer-registration": <FarmerRegistration />,
@@ -48,24 +48,26 @@ export function App() {
   const currentPages = role === "agent" ? agentPages : farmerPages;
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Show sidebar only for agent */}
-      {role === "agent" && (
-        <Sidebar
-          userRole={role}
-          currentPage={currentPage}
-          onNavigate={setCurrentPage}
-        />
-      )}
+    <AuthProvider>
+      <div className="flex h-screen bg-gray-50">
+        {/* Show sidebar only for agent */}
+        {role === "agent" && (
+          <Sidebar
+            userRole="agent"
+            currentPage={currentPage}
+            onNavigate={setCurrentPage}
+          />
+        )}
 
-      <div className="flex flex-col flex-1 overflow-hidden">
-        <Header />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">
-          {currentPages[currentPage as keyof typeof currentPages] || (
-            <div>Page not found</div>
-          )}
-        </main>
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <Header />
+          <main className="flex-1 overflow-y-auto p-4 md:p-6">
+            {currentPages[currentPage as keyof typeof currentPages] || (
+              <div>Page not found</div>
+            )}
+          </main>
+        </div>
       </div>
-    </div>
+    </AuthProvider>
   );
 }
