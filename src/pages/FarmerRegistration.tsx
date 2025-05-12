@@ -9,7 +9,10 @@ const FarmerRegistration: React.FC = () => {
     crops: [{ id: 1, name: "", area: "" }],
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index?: number) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    index?: number
+  ) => {
     const { id, value } = e.target;
     if (index !== undefined) {
       const newCrops = [...formData.crops];
@@ -38,58 +41,58 @@ const FarmerRegistration: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <header style={{ backgroundColor: "#1e8a4e", color: "white", padding: "15px", textAlign: "center" }}>
-        <h1>Farmer Registration System</h1>
+    <div className="max-w-4xl mx-auto p-5 font-sans">
+      <header className="bg-green-700 text-white p-4 text-center rounded">
+        <h1 className="text-2xl font-bold">Farmer Registration System</h1>
       </header>
 
-      <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "8px", marginTop: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.05)" }}>
-        <h2 style={{ color: "#1e8a4e" }}>Farmer Registration</h2>
+      <div className="bg-white p-6 mt-6 rounded shadow">
+        <h2 className="text-xl font-semibold text-green-700 mb-4">Farmer Registration</h2>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", marginBottom: "20px" }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
-            <label htmlFor="farmerName" style={{ fontWeight: "bold" }}>Full Name *</label>
+            <label htmlFor="farmerName" className="font-bold block mb-1">Full Name *</label>
             <input
               type="text"
               id="farmerName"
               value={formData.farmerName}
               onChange={handleInputChange}
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
+              className="w-full p-2 border border-gray-300 rounded"
               placeholder="Enter full name"
               required
             />
           </div>
           <div>
-            <label htmlFor="idNumber" style={{ fontWeight: "bold" }}>ID Number *</label>
+            <label htmlFor="idNumber" className="font-bold block mb-1">ID Number *</label>
             <input
               type="text"
               id="idNumber"
               value={formData.idNumber}
               onChange={handleInputChange}
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
+              className="w-full p-2 border border-gray-300 rounded"
               placeholder="Enter ID number"
               required
             />
           </div>
           <div>
-            <label htmlFor="phoneNumber" style={{ fontWeight: "bold" }}>Phone Number *</label>
+            <label htmlFor="phoneNumber" className="font-bold block mb-1">Phone Number *</label>
             <input
               type="tel"
               id="phoneNumber"
               value={formData.phoneNumber}
               onChange={handleInputChange}
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
+              className="w-full p-2 border border-gray-300 rounded"
               placeholder="Enter phone number"
               required
             />
           </div>
           <div>
-            <label htmlFor="region" style={{ fontWeight: "bold" }}>Region *</label>
+            <label htmlFor="region" className="font-bold block mb-1">Region *</label>
             <select
               id="region"
               value={formData.region}
               onChange={handleInputChange}
-              style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
+              className="w-full p-2 border border-gray-300 rounded"
               required
             >
               <option value="">-- Select Region --</option>
@@ -102,16 +105,16 @@ const FarmerRegistration: React.FC = () => {
           </div>
         </div>
 
-        <h3 style={{ color: "#1e8a4e" }}>Crop Information</h3>
+        <h3 className="text-lg font-semibold text-green-700 mb-2">Crop Information</h3>
         {formData.crops.map((crop, index) => (
-          <div key={crop.id} style={{ display: "grid", gridTemplateColumns: "2fr 1fr auto", gap: "10px", marginBottom: "10px" }}>
+          <div key={crop.id} className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
             <input
               type="text"
               id="name"
               placeholder="Crop Name"
               value={crop.name}
               onChange={(e) => handleInputChange(e, index)}
-              style={{ padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
+              className="p-2 border border-gray-300 rounded"
               required
             />
             <input
@@ -120,19 +123,12 @@ const FarmerRegistration: React.FC = () => {
               placeholder="Area (Hectares)"
               value={crop.area}
               onChange={(e) => handleInputChange(e, index)}
-              style={{ padding: "10px", border: "1px solid #ccc", borderRadius: "4px" }}
+              className="p-2 border border-gray-300 rounded"
               required
             />
             <button
               onClick={() => removeCrop(index)}
-              style={{
-                backgroundColor: "#e53935",
-                color: "white",
-                border: "none",
-                padding: "10px",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
+              className="bg-red-600 text-white px-4 py-2 rounded disabled:opacity-50"
               disabled={formData.crops.length === 1}
             >
               Remove
@@ -142,45 +138,29 @@ const FarmerRegistration: React.FC = () => {
 
         <button
           onClick={addCrop}
-          style={{
-            backgroundColor: "#43a047",
-            color: "white",
-            border: "none",
-            padding: "10px 15px",
-            borderRadius: "4px",
-            cursor: "pointer",
-            display: "block",
-            margin: "10px 0",
-          }}
+          className="bg-green-600 text-white px-4 py-2 rounded mt-2"
         >
           + Add Crop
         </button>
 
-        <div style={{ marginTop: "20px" }}>
+        <div className="mt-6 space-x-4">
           <button
             onClick={handleSubmit}
-            style={{
-              backgroundColor: "#1e8a4e",
-              color: "white",
-              border: "none",
-              padding: "10px 15px",
-              borderRadius: "4px",
-              cursor: "pointer",
-              marginRight: "10px",
-            }}
+            className="bg-green-700 text-white px-5 py-2 rounded"
           >
             Register Farmer
           </button>
           <button
-            onClick={() => setFormData({ farmerName: "", idNumber: "", phoneNumber: "", region: "", crops: [{ id: 1, name: "", area: "" }] })}
-            style={{
-              backgroundColor: "#f1f3f4",
-              color: "#212121",
-              border: "none",
-              padding: "10px 15px",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
+            onClick={() =>
+              setFormData({
+                farmerName: "",
+                idNumber: "",
+                phoneNumber: "",
+                region: "",
+                crops: [{ id: 1, name: "", area: "" }],
+              })
+            }
+            className="bg-gray-200 text-gray-800 px-5 py-2 rounded"
           >
             Clear Form
           </button>

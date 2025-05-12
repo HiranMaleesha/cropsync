@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Search, Filter, ChevronRight } from "lucide-react";
 
-// Define a type for a farmer object
 interface Farmer {
   id: string;
   name: string;
@@ -10,21 +8,20 @@ interface Farmer {
   acreage: number;
 }
 
-// Sample farmer data
 const initialFarmers: Farmer[] = [
-  { id: "F001", name: "John Smith", location: "Iowa", crops: ["Corn", "Soybeans"], acreage: 450 },
-  { id: "F002", name: "Maria Garcia", location: "California", crops: ["Almonds", "Grapes"], acreage: 320 },
-  { id: "F003", name: "Robert Johnson", location: "Nebraska", crops: ["Wheat", "Barley"], acreage: 680 },
-  { id: "F004", name: "Sarah Williams", location: "Texas", crops: ["Cotton", "Sorghum"], acreage: 520 },
-  { id: "F005", name: "David Lee", location: "Oregon", crops: ["Apples", "Cherries"], acreage: 150 },
-  { id: "F006", name: "Lisa Brown", location: "Minnesota", crops: ["Corn", "Alfalfa"], acreage: 390 },
+  { id: "F001", name: "Punchi Appuhami", location: "Iowa", crops: ["Corn", "Soybeans"], acreage: 450 },
+  { id: "F002", name: "Kamal Perera", location: "California", crops: ["Almonds", "Grapes"], acreage: 320 },
+  { id: "F003", name: "Nimal Fernando", location: "Nebraska", crops: ["Wheat", "Barley"], acreage: 680 },
+  { id: "F004", name: "Rohana Wickramasinghe", location: "Texas", crops: ["Cotton", "Sorghum"], acreage: 520 },
+  { id: "F005", name: "Sunil Jayasinghe", location: "Oregon", crops: ["Apples", "Cherries"], acreage: 150 },
+  { id: "F006", name: "Amara Silva", location: "Minnesota", crops: ["Corn", "Alfalfa"], acreage: 390 },
 ];
 
 const FarmerProfile = () => {
   const [farmers, setFarmers] = useState<Farmer[]>(initialFarmers);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filterOpen, setFilterOpen] = useState<boolean>(false);
-  const [selectedFarmer, setSelectedFarmer] = useState<Farmer | null>(null); // Explicitly set type
+  const [selectedFarmer, setSelectedFarmer] = useState<Farmer | null>(null);
 
   const filteredFarmers = farmers.filter(
     (farmer) =>
@@ -33,56 +30,45 @@ const FarmerProfile = () => {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh", backgroundColor: "#f9fafb" }}>
+    <div className="flex flex-col h-screen bg-gray-50">
       {/* Header */}
-      <header style={{ backgroundColor: "#2f855a", color: "white", padding: "16px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}>
-        <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>CropSync Farmer Profiles</h1>
+      <header className="bg-green-700 text-white p-4 shadow-md">
+        <h1 className="text-2xl font-bold">CropSync Farmer Profiles</h1>
       </header>
 
       {/* Main content */}
-      <main style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+      <main className="flex flex-1 overflow-hidden">
         {/* Sidebar for filters */}
         {filterOpen && (
-          <div style={{ width: "250px", backgroundColor: "white", padding: "16px", borderRight: "1px solid #e5e7eb" }}>
-            <h2 style={{ fontWeight: "600", color: "#2f855a", marginBottom: "16px" }}>Filters</h2>
+          <div className="w-64 bg-white p-4 border-r border-gray-200">
+            <h2 className="font-semibold text-green-700 mb-4">Filters</h2>
+            {/* Add filter options here */}
           </div>
         )}
 
         {/* Farmer list */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div className="flex-1 flex flex-col overflow-hidden">
           {/* Search bar */}
-          <div style={{ backgroundColor: "white", padding: "16px", display: "flex", justifyContent: "space-between", borderBottom: "1px solid #e5e7eb" }}>
+          <div className="bg-white p-4 flex justify-between border-b border-gray-200">
             <input
               type="text"
               placeholder="Search by name or ID..."
-              style={{
-                width: "100%",
-                padding: "8px",
-                border: "1px solid #d1d5db",
-                borderRadius: "4px",
-              }}
+              className="w-full p-2 border border-gray-300 rounded"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
           {/* Farmer cards */}
-          <div style={{ flex: 1, overflowY: "auto", padding: "24px", backgroundColor: "#f9fafb", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "16px" }}>
+          <div className="flex-1 overflow-y-auto p-6 bg-gray-50 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredFarmers.map((farmer) => (
               <div
                 key={farmer.id}
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "8px",
-                  padding: "16px",
-                  border: "1px solid #e5e7eb",
-                  transition: "box-shadow 0.2s",
-                  cursor: "pointer",
-                }}
+                className="bg-white rounded-lg p-4 border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
                 onClick={() => setSelectedFarmer(farmer)}
               >
-                <h3 style={{ fontSize: "18px", fontWeight: "600", color: "#374151" }}>{farmer.name}</h3>
-                <p style={{ color: "#6b7280" }}>ID: {farmer.id}</p>
+                <h3 className="text-lg font-semibold text-gray-800">{farmer.name}</h3>
+                <p className="text-gray-500">ID: {farmer.id}</p>
               </div>
             ))}
           </div>
@@ -90,21 +76,13 @@ const FarmerProfile = () => {
 
         {/* Farmer details modal */}
         {selectedFarmer && (
-          <div style={{ position: "fixed", inset: "0", backgroundColor: "rgba(0,0,0,0.5)", display: "flex", justifyContent: "center", alignItems: "center", padding: "16px" }}>
-            <div style={{ backgroundColor: "white", borderRadius: "8px", maxWidth: "400px", width: "100%", boxShadow: "0px 4px 6px rgba(0,0,0,0.1)", padding: "16px" }}>
-              <h2 style={{ fontSize: "20px", fontWeight: "bold", color: "#2f855a" }}>Farmer Details</h2>
-              <h3 style={{ fontSize: "18px", fontWeight: "600", color: "#374151", marginTop: "16px" }}>{selectedFarmer.name}</h3>
-              <p style={{ color: "#6b7280" }}>ID: {selectedFarmer.id}</p>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
+            <div className="bg-white rounded-lg max-w-md w-full shadow-lg p-6">
+              <h2 className="text-xl font-bold text-green-700">Farmer Details</h2>
+              <h3 className="text-lg font-semibold text-gray-800 mt-4">{selectedFarmer.name}</h3>
+              <p className="text-gray-500">ID: {selectedFarmer.id}</p>
               <button
-                style={{
-                  width: "100%",
-                  marginTop: "16px",
-                  backgroundColor: "#2f855a",
-                  color: "white",
-                  padding: "8px",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
+                className="w-full mt-4 bg-green-700 text-white py-2 rounded hover:bg-green-800 transition-colors"
                 onClick={() => setSelectedFarmer(null)}
               >
                 Close
