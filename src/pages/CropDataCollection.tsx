@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Send, Leaf, HelpCircle } from "lucide-react";
 
 // Sample Data
-const regions = ["North", "South", "East", "West", "Central"];
-const crops = ["Wheat", "Rice", "Corn", "Soybeans", "Potatoes", "Tomatoes"];
+const regions = ["Kurunegal", "Kandy", "Gampola", "Monaragala", "Colombo"];
+const crops = ["Green beans", "Long beans", "Tomatoes"];
 const farmers = [
   { id: "F001", label: "John Smith" },
   { id: "F002", label: "Maria Garcia" },
