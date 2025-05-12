@@ -8,242 +8,96 @@ import {
   TreesIcon,
   RulerIcon,
 } from 'lucide-react'
+
 export function MyProfile() {
   const farmerData = {
     id: 'F001',
-    name: 'John Smith',
+    name: 'Punchi Appuhami',
     idNumber: 'ID78901234',
     phone: '+1 (555) 123-4567',
-    region: 'North',
+    region: 'Kurunegala',
     crops: [
-      {
-        name: 'Wheat',
-        area: 5000,
-      },
-      {
-        name: 'Corn',
-        area: 3000,
-      },
-      {
-        name: 'Soybeans',
-        area: 2500,
-      },
-      {
-        name: 'Potatoes',
-        area: 1500,
-      },
+      { name: 'Green Beans', area: 5000 },
+      { name: 'Corn', area: 3000 },
+      { name: 'Long Beans', area: 2500 },
     ],
   }
-  const styles = {
-    container: {
-      width: '100%',
-      minHeight: '100vh',
-      backgroundColor: '#F0FDF4',
-      padding: '2rem 1rem',
-    },
-    content: {
-      maxWidth: '1024px',
-      margin: '0 auto',
-    },
-    header: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      marginBottom: '2rem',
-    },
-    headerIcon: {
-      color: '#059669',
-      width: '2rem',
-      height: '2rem',
-    },
-    title: {
-      fontSize: '1.875rem',
-      fontWeight: 'bold',
-      color: '#065F46',
-    },
-    grid: {
-      display: 'grid',
-      gap: '2rem',
-      gridTemplateColumns: window.innerWidth >= 768 ? '2fr 1fr' : '1fr',
-    },
-    card: {
-      backgroundColor: 'white',
-      borderRadius: '0.75rem',
-      boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
-      padding: '1.5rem',
-    },
-    profileHeader: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '1rem',
-      marginBottom: '2rem',
-      padding: '1rem',
-      backgroundColor: '#F0FDF4',
-      borderRadius: '0.5rem',
-    },
-    profileIcon: {
-      backgroundColor: '#059669',
-      color: 'white',
-      borderRadius: '50%',
-      padding: '1rem',
-      width: '4rem',
-      height: '4rem',
-    },
-    profileName: {
-      flex: 1,
-    },
-    name: {
-      fontSize: '1.5rem',
-      fontWeight: 'bold',
-      color: '#065F46',
-      marginBottom: '0.25rem',
-    },
-    farmerId: {
-      color: '#059669',
-      fontWeight: '500',
-    },
-    sectionTitle: {
-      fontSize: '1.25rem',
-      fontWeight: 'bold',
-      color: '#065F46',
-      marginBottom: '1rem',
-      paddingBottom: '0.5rem',
-      borderBottom: '1px solid #E5E7EB',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-    },
-    infoGrid: {
-      display: 'grid',
-      gap: '1rem',
-      gridTemplateColumns: window.innerWidth >= 640 ? '1fr 1fr' : '1fr',
-    },
-    infoItem: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.75rem',
-      padding: '0.75rem',
-      backgroundColor: '#F9FAFB',
-      borderRadius: '0.5rem',
-    },
-    infoIcon: {
-      color: '#059669',
-      width: '1.25rem',
-      height: '1.25rem',
-    },
-    infoLabel: {
-      fontSize: '0.875rem',
-      color: '#6B7280',
-      marginBottom: '0.25rem',
-    },
-    infoValue: {
-      color: '#111827',
-      fontWeight: '500',
-    },
-    cropTable: {
-      width: '100%',
-      borderCollapse: 'collapse' as const,
-    },
-    cropRow: {
-      borderBottom: '1px solid #E5E7EB',
-    },
-    cropCell: {
-      padding: '0.75rem',
-      fontSize: '0.875rem',
-      color: '#374151',
-    },
-    cropHeader: {
-      textAlign: 'left' as const,
-      padding: '0.75rem',
-      fontSize: '0.875rem',
-      fontWeight: '500',
-      color: '#6B7280',
-      backgroundColor: '#F9FAFB',
-    },
-    areaValue: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-      color: '#059669',
-      fontWeight: '500',
-    },
-  }
+
   return (
-    <div style={styles.container}>
-      <div style={styles.content}>
-        <header style={styles.header}>
-          <LeafIcon style={styles.headerIcon} />
-          <h1 style={styles.title}>CropSync Profile</h1>
+    <div className="w-full min-h-screen bg-green-50 p-4 md:p-8">
+      <div className="max-w-4xl mx-auto">
+        <header className="flex items-center gap-2 mb-8">
+          <LeafIcon className="text-emerald-600 w-8 h-8" />
+          <h1 className="text-3xl font-bold text-emerald-800">CropSync Profile</h1>
         </header>
-        <div style={styles.grid}>
-          <div style={styles.card}>
-            <div style={styles.profileHeader}>
-              <div style={styles.profileIcon}>
+        <div className="grid gap-8 md:grid-cols-3">
+          {/* Personal Info Card */}
+          <div className="md:col-span-2 bg-white rounded-xl shadow p-6">
+            <div className="flex items-center gap-4 mb-8 p-4 bg-green-50 rounded-lg">
+              <div className="bg-emerald-600 text-white rounded-full p-4 w-16 h-16 flex items-center justify-center">
                 <UserIcon size={32} />
               </div>
-              <div style={styles.profileName}>
-                <h2 style={styles.name}>{farmerData.name}</h2>
-                <span style={styles.farmerId}>Farmer ID: {farmerData.id}</span>
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold text-emerald-800">{farmerData.name}</h2>
+                <span className="text-emerald-600 font-medium">Farmer ID: {farmerData.id}</span>
               </div>
             </div>
-            <h3 style={styles.sectionTitle}>
-                
+            <h3 className="text-xl font-bold text-emerald-800 mb-4 pb-2 border-b border-gray-200 flex items-center gap-2">
               <div />
               Personal Information
             </h3>
-            <div style={styles.infoGrid}>
-              <div style={styles.infoItem}>
-                <HashIcon style={styles.infoIcon} />
+            <div className="grid gap-4 sm:grid-cols-2">
+              {/* ID */}
+              <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg">
+                <HashIcon className="text-emerald-600 w-5 h-5" />
                 <div>
-                  <div style={styles.infoLabel}>ID Number</div>
-                  <div style={styles.infoValue}>{farmerData.idNumber}</div>
+                  <div className="text-sm text-gray-500">ID Number</div>
+                  <div className="text-gray-900 font-medium">{farmerData.idNumber}</div>
                 </div>
               </div>
-              <div style={styles.infoItem}>
-                <PhoneIcon style={styles.infoIcon} />
+              {/* Phone */}
+              <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg">
+                <PhoneIcon className="text-emerald-600 w-5 h-5" />
                 <div>
-                  <div style={styles.infoLabel}>Phone Number</div>
-                  <div style={styles.infoValue}>{farmerData.phone}</div>
+                  <div className="text-sm text-gray-500">Phone Number</div>
+                  <div className="text-gray-900 font-medium">{farmerData.phone}</div>
                 </div>
               </div>
-              <div style={styles.infoItem}>
-                <MapPinIcon style={styles.infoIcon} />
+              {/* Region */}
+              <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg sm:col-span-2">
+                <MapPinIcon className="text-emerald-600 w-5 h-5" />
                 <div>
-                  <div style={styles.infoLabel}>Region</div>
-                  <div style={styles.infoValue}>{farmerData.region}</div>
+                  <div className="text-sm text-gray-500">Region</div>
+                  <div className="text-gray-900 font-medium">{farmerData.region}</div>
                 </div>
               </div>
             </div>
           </div>
-          <div style={styles.card}>
-            <h3 style={styles.sectionTitle}>
-              <TreesIcon size={20} />
+
+          {/* Crops Info Card */}
+          <div className="bg-white rounded-xl shadow p-6">
+            <h3 className="text-xl font-bold text-emerald-800 mb-4 pb-2 border-b border-gray-200 flex items-center gap-2">
+              <TreesIcon className="w-5 h-5" />
               Crops Grown
             </h3>
-            <table style={styles.cropTable}>
+            <table className="w-full border-collapse">
               <thead>
                 <tr>
-                  <th style={styles.cropHeader}>Crop</th>
-                  <th style={styles.cropHeader}>Area</th>
+                  <th className="text-left p-3 text-sm font-medium text-gray-500 bg-gray-50">Crop</th>
+                  <th className="text-left p-3 text-sm font-medium text-gray-500 bg-gray-50">Area</th>
                 </tr>
               </thead>
               <tbody>
                 {farmerData.crops.map((crop, index) => (
-                  <tr key={index} style={styles.cropRow}>
-                    <td style={styles.cropCell}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                        }}
-                      >
-                        <LeafIcon size={16} color="#059669" />
+                  <tr key={index} className="border-b border-gray-200">
+                    <td className="p-3 text-sm text-gray-700">
+                      <div className="flex items-center gap-2">
+                        <LeafIcon size={16} className="text-emerald-600" />
                         {crop.name}
                       </div>
                     </td>
-                    <td style={styles.cropCell}>
-                      <div style={styles.areaValue}>
+                    <td className="p-3 text-sm text-emerald-600 font-medium">
+                      <div className="flex items-center gap-2">
                         <RulerIcon size={16} />
                         {crop.area.toLocaleString()} sq. ft
                       </div>

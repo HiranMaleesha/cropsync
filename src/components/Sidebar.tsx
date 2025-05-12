@@ -11,7 +11,8 @@ export function Sidebar({ userRole, onNavigate, currentPage }: SidebarProps) {
     { label: "Dashboard", key: "dashboard" },
     { label: "Farmer Registration", key: "farmer-registration" },
     { label: "Farmer Profiles", key: "farmer-profile" },
-    { label: "Data Collection", key: "data-collection" },
+    { label: "Farmer Data Collection", key: "fdata-collection" },
+    { label: "Crop Data Collection", key: "cdata-collection" },
     { label: "Analytics", key: "analytics" },
   ];
 

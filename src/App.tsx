@@ -4,7 +4,8 @@ import { Dashboard } from "./pages/Dashboard";
 import { Header } from "./components/Header";
 import FarmerRegistration from "./pages/FarmerRegistration";
 import FarmerProfile from "./pages/FarmerProfile";
-import DataCollection from "./pages/DataCollection";
+import FarmerDataCollection from "./pages/FarmerDataCollection";
+import CropDataCollection from "./pages/CropDataCollection";
 import { Login } from "./pages/auth/Login";
 import { FDashboard } from "./pages/FDashboard";
 import Analytics from "./pages/Analytics";
@@ -35,7 +36,8 @@ export function App() {
     dashboard: <Dashboard />,
     "farmer-registration": <FarmerRegistration />,
     "farmer-profile": <FarmerProfile />,
-    "data-collection": <DataCollection />,
+    "fdata-collection": <FarmerDataCollection />,
+    "cdata-collection": <CropDataCollection />,
     analytics: <Analytics />,
   };
 
