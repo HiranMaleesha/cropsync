@@ -3,7 +3,7 @@ import { Send, Leaf, HelpCircle } from "lucide-react";
 
 // Sample Data
 const regions = ["Kurunegal", "Kandy", "Gampola", "Monaragala", "Colombo"];
-const crops = ["Green beans", "Long beans", "Tomatoes"];
+const crops = ["Green beans", "Long beans", "Tomatoes" , "corn"];
 const farmers = [
   { id: "F001", label: "John Smith" },
   { id: "F002", label: "Maria Garcia" },
