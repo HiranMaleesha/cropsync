@@ -3,76 +3,100 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import FarmerDetails from "./farmerDetails";
 
-// Define the User type
-type User = {
+// Define the Farmer type
+type Farmer = {
   _id: string;
-  name: string;
-  gmail: string;
-  age: number;
-  address: string;
+  farmerName: string;
+  idNumber: string;
+  phoneNumber: string;
+  region: string;
+  crops: Array<{
+    name: string;
+    area: number;
+  }>;
+  createdAt: string;
+  updatedAt: string;
 };
 
-const URL = "http://localhost:5000/users";
-
-const fetchHandler = async () => {
-  return await axios.get(URL).then((res) => res.data);
+interface FarmerProfileProps {
+  onNavigate?: (page: string) => void;
 }
 
-function Users() {
-  // Add loading state
+const API_URL = "http://localhost:5000/api/farmers";
+
+const FarmerProfile: React.FC<FarmerProfileProps> = ({ onNavigate }) => {
   const [loading, setLoading] = useState<boolean>(true);
-  // Initialize to null to detect when data hasn't loaded yet
-  const [users, setUsers] = useState<User[] | null>(null);
-  
+  const [error, setError] = useState<string>("");
+  const [farmers, setFarmers] = useState<Farmer[]>([]);
+
+  const fetchFarmers = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(API_URL);
+      setFarmers(response.data);
+      setError("");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Error fetching farmers");
+      setFarmers([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (window.confirm("Are you sure you want to delete this farmer?")) {
+      try {
+        await axios.delete(`${API_URL}/${id}`);
+        setFarmers(farmers.filter(farmer => farmer._id !== id));
+      } catch (err: any) {
+        setError(err.response?.data?.message || "Error deleting farmer");
+      }
+    }
+  };
+
   useEffect(() => {
-    setLoading(true);
-    fetchHandler()
-      .then((data) => {
-        console.log("API response:", data); // Log the response to see its structure
-        
-        if (data && Array.isArray(data)) {
-          // If the response is directly an array
-          setUsers(data);
-        } else if (data && Array.isArray(data.users)) {
-          // If the response has a users property that's an array
-          setUsers(data.users);
-        } else {
-          console.error("Unexpected API response format:", data);
-          setUsers([]); // Set to empty array if no users data
-        }
-      })
-      .catch(err => {
-        console.error("Error fetching users:", err);
-        setUsers([]); // Set to empty array on error
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    fetchFarmers();
   }, []);
 
   if (loading) {
     return (
-      <div>
-        <p>Loading...</p>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-700"></div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div>
-        {Array.isArray(users) && users.length > 0 ? (
-          users.map((user, i) => (
-            <div key={i}>
-              <FarmerDetails user={user} />
-            </div>
+    <div className="max-w-6xl mx-auto p-5">
+      <header className="bg-green-700 text-white p-4 text-center rounded mb-6">
+        <h1 className="text-2xl font-bold">Farmer Profiles</h1>
+      </header>
+
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {farmers.length > 0 ? (
+          farmers.map((farmer) => (
+            <FarmerDetails
+              key={farmer._id}
+              farmer={farmer}
+              onDelete={() => handleDelete(farmer._id)}
+              onRefresh={fetchFarmers}
+              onNavigate={onNavigate}
+            />
           ))
         ) : (
-          <p>No farmers found</p>
+          <div className="col-span-full text-center text-gray-600">
+            No farmers found
+          </div>
         )}
       </div>
     </div>
   );
-}
+};
 
-export default Users;
+export default FarmerProfile;

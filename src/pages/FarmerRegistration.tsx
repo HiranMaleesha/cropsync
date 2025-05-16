@@ -1,6 +1,13 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-const FarmerRegistration: React.FC = () => {
+const API_URL = "http://localhost:5000/api/farmers";
+
+interface FarmerRegistrationProps {
+  onNavigate?: (page: string) => void;
+}
+
+const FarmerRegistration: React.FC<FarmerRegistrationProps> = ({ onNavigate }) => {
   const [formData, setFormData] = useState({
     farmerName: "",
     idNumber: "",
@@ -8,6 +15,8 @@ const FarmerRegistration: React.FC = () => {
     region: "",
     crops: [{ id: 1, name: "", area: "" }],
   });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -35,9 +44,44 @@ const FarmerRegistration: React.FC = () => {
     setFormData({ ...formData, crops: newCrops });
   };
 
-  const handleSubmit = () => {
-    console.log("Form Data:", formData);
-    alert("Farmer Registered Successfully!");
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      // Validate form data
+      if (!formData.farmerName || !formData.idNumber || !formData.phoneNumber || !formData.region) {
+        setError("Please fill in all required fields");
+        return;
+      }
+
+      // Validate crops
+      const invalidCrops = formData.crops.some(crop => !crop.name || !crop.area);
+      if (invalidCrops) {
+        setError("Please fill in all crop details");
+        return;
+      }
+
+      // Format data for API
+      const apiData = {
+        ...formData,
+        crops: formData.crops.map(({ name, area }) => ({
+          name,
+          area: Number(area)
+        }))
+      };
+
+      const response = await axios.post(API_URL, apiData);
+      
+      if (response.data) {
+        alert("Farmer Registered Successfully!");
+        onNavigate?.("farmer-profile"); // Use the custom navigation
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Error registering farmer");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,6 +89,12 @@ const FarmerRegistration: React.FC = () => {
       <header className="bg-green-700 text-white p-4 text-center rounded">
         <h1 className="text-2xl font-bold">Farmer Registration System</h1>
       </header>
+
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
 
       <div className="bg-white p-6 mt-6 rounded shadow">
         <h2 className="text-xl font-semibold text-green-700 mb-4">Farmer Registration</h2>
@@ -146,20 +196,23 @@ const FarmerRegistration: React.FC = () => {
         <div className="mt-6 space-x-4">
           <button
             onClick={handleSubmit}
-            className="bg-green-700 text-white px-5 py-2 rounded"
+            disabled={loading}
+            className={`bg-green-700 text-white px-5 py-2 rounded ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            Register Farmer
+            {loading ? 'Registering...' : 'Register Farmer'}
           </button>
           <button
-            onClick={() =>
+            onClick={() => {
               setFormData({
                 farmerName: "",
                 idNumber: "",
                 phoneNumber: "",
                 region: "",
                 crops: [{ id: 1, name: "", area: "" }],
-              })
-            }
+              });
+              setError("");
+            }}
+            disabled={loading}
             className="bg-gray-200 text-gray-800 px-5 py-2 rounded"
           >
             Clear Form

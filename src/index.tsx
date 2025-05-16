@@ -4,6 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { App } from './App';
 import { AuthProvider } from './firebase/auth'; // ✅ Corrected path
+import { BrowserRouter } from 'react-router-dom';
 import './index.css'; 
 
 const root = ReactDOM.createRoot(
@@ -11,9 +12,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <AuthProvider> {/* ✅ Wrap App inside AuthProvider */}
-      <App />
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider> {/* ✅ Wrap App inside AuthProvider */}
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

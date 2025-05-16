@@ -12,6 +12,7 @@ import Analytics from "./pages/Analytics";
 import Frecommendations from "./pages/Frecommendations";
 import { MyProfile } from "./pages/MyProfile";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import "./index.css";
 import { AuthProvider } from "./firebase/auth";
 
@@ -34,8 +35,8 @@ export function App() {
 
   const agentPages = {
     dashboard: <Dashboard />,
-    "farmer-registration": <FarmerRegistration />,
-    "farmer-profile": <FarmerProfile />,
+    "farmer-registration": <FarmerRegistration onNavigate={setCurrentPage} />,
+    "farmer-profile": <FarmerProfile onNavigate={setCurrentPage} />,
     "fdata-collection": <FarmerDataCollection />,
     "cdata-collection": <CropDataCollection />,
     analytics: <Analytics />,
@@ -52,6 +53,7 @@ export function App() {
   return (
     <AuthProvider>
       <div className="flex h-screen bg-gray-50">
+        <Toaster />
         {/* Show sidebar only for agent */}
         {role === "agent" && (
           <Sidebar
