@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Calendar, Filter, TrendingUp, DollarSign, Package, Crop } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface AnalyticsData {
   summary: {
@@ -43,6 +44,7 @@ const Analytics = () => {
     cropName: '',
     season: ''
   });
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     try {

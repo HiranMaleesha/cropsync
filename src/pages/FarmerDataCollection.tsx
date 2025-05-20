@@ -414,9 +414,11 @@ const FarmerDataForm = () => {
 const FarmerDataCollection = () => {
   return (
     <div className="max-w-5xl mx-auto p-6">
-      <header className="flex items-center gap-3 mb-6">
-        <Leaf className="text-green-600" size={32} />
-        <h1 className="text-2xl font-bold text-green-700">CropSync Data Collection</h1>
+      <header className="flex items-center mb-6">
+        <div className="flex items-center gap-3">
+          <Leaf className="text-green-600" size={32} />
+          <h1 className="text-2xl font-bold text-green-700">CropSync Data Collection</h1>
+        </div>
       </header>
       <div className="flex flex-wrap gap-6">
         <FarmerDataForm />

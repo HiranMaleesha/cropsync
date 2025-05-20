@@ -7,6 +7,7 @@ import FarmerProfile from "./pages/FarmerProfile";
 import FarmerDataCollection from "./pages/FarmerDataCollection";
 import CropDataCollection from "./pages/CropDataCollection";
 import { Login } from "./pages/auth/Login";
+import { Signup } from "./pages/auth/Signup";
 import { FDashboard } from "./pages/FDashboard";
 import Analytics from "./pages/Analytics";
 import Frecommendations from "./pages/Frecommendations";
@@ -21,15 +22,19 @@ export function App() {
   const [role, setRole] = useState<"agent" | "farmer" | null>(null);
   const [currentPage, setCurrentPage] = useState("dashboard");
 
+  const handleAuth = (userRole: "agent" | "farmer") => {
+    setIsAuthenticated(true);
+    setRole(userRole);
+    setCurrentPage(userRole === "agent" ? "dashboard" : "panel");
+  };
+
   if (!isAuthenticated || !role) {
     return (
-      <Login
-        onLogin={(userRole: "agent" | "farmer") => {
-          setIsAuthenticated(true);
-          setRole(userRole);
-          setCurrentPage(userRole === "agent" ? "dashboard" : "panel");
-        }}
-      />
+      <Routes>
+        <Route path="/login" element={<Login onLogin={handleAuth} />} />
+        <Route path="/signup" element={<Signup onSignup={handleAuth} />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
     );
   }
 
@@ -74,4 +79,4 @@ export function App() {
       </div>
     </AuthProvider>
   );
-}
+} 

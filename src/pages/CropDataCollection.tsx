@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Send, Leaf, HelpCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // Sample Data
 const regions = ["Kurunegal", "Kandy", "Gampola", "Monaragala", "Colombo"];
@@ -168,11 +169,13 @@ const CropDataForm = () => (
 const CropDataCollection = () => {
   return (
     <div className="max-w-5xl mx-auto p-5">
-      <header className="flex items-center gap-2 mb-5">
-        <Leaf color="green" size={32} />
-        <h1 className="text-2xl text-green-600 font-bold">
-          CropSync Data Collection
-        </h1>
+      <header className="flex items-center mb-5">
+        <div className="flex items-center gap-2">
+          <Leaf color="green" size={32} />
+          <h1 className="text-2xl text-green-600 font-bold">
+            CropSync Data Collection
+          </h1>
+        </div>
       </header>
       <div className="flex gap-5 flex-wrap">
         <CropDataForm />

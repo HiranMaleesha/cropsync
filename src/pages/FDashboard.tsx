@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sprout, LineChart, UserCircle, Leaf, Sun } from 'lucide-react';
 import { useAuth } from '../firebase/auth'; // Adjust the path if needed
+import { useNavigate } from 'react-router-dom';
 
 interface FDashboardProps {
   onNavigate: (page: string) => void;
@@ -8,6 +9,7 @@ interface FDashboardProps {
 
 export function FDashboard({ onNavigate }: FDashboardProps) {
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   const actionCards = [
     {
@@ -39,9 +41,20 @@ export function FDashboard({ onNavigate }: FDashboardProps) {
   return (
     <div className="min-h-screen bg-green-50">
       <div className="max-w-6xl mx-auto px-6 py-8">
-        <header className="flex items-center gap-2 mb-8">
-          <Leaf className="text-green-600 w-8 h-8" />
-          <h1 className="text-3xl font-bold text-green-800">CropSync Dashboard</h1>
+        <header className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-2">
+            <Leaf className="text-green-600 w-8 h-8" />
+            <h1 className="text-3xl font-bold text-green-800">CropSync Dashboard</h1>
+          </div>
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" />
+            </svg>
+            Back
+          </button>
         </header>
 
         <div className="flex items-center gap-4 bg-green-600 text-white rounded-xl p-5 mb-6">

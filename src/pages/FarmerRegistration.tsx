@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/firebase";
 
 const API_URL = "http://localhost:5000/api/farmers";
 
@@ -7,12 +9,45 @@ interface FarmerRegistrationProps {
   onNavigate?: (page: string) => void;
 }
 
+interface CropFormData {
+  id: number;
+  name: string;
+  area: string;
+}
+
+interface CropApiData {
+  name: string;
+  area: number;
+}
+
+interface FarmerFormData {
+  farmerName: string;
+  idNumber: string;
+  phoneNumber: string;
+  region: string;
+  email: string;
+  password: string;
+  crops: CropFormData[];
+}
+
+interface FarmerApiData {
+  farmerName: string;
+  idNumber: string;
+  phoneNumber: string;
+  region: string;
+  email: string;
+  firebaseUid: string;
+  crops: CropApiData[];
+}
+
 const FarmerRegistration: React.FC<FarmerRegistrationProps> = ({ onNavigate }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FarmerFormData>({
     farmerName: "",
     idNumber: "",
     phoneNumber: "",
     region: "",
+    email: "",
+    password: "",
     crops: [{ id: 1, name: "", area: "" }],
   });
   const [error, setError] = useState("");
@@ -50,7 +85,8 @@ const FarmerRegistration: React.FC<FarmerRegistrationProps> = ({ onNavigate }) =
       setError("");
 
       // Validate form data
-      if (!formData.farmerName || !formData.idNumber || !formData.phoneNumber || !formData.region) {
+      if (!formData.farmerName || !formData.idNumber || !formData.phoneNumber || 
+          !formData.region || !formData.email || !formData.password) {
         setError("Please fill in all required fields");
         return;
       }
@@ -62,23 +98,61 @@ const FarmerRegistration: React.FC<FarmerRegistrationProps> = ({ onNavigate }) =
         return;
       }
 
-      // Format data for API
-      const apiData = {
-        ...formData,
-        crops: formData.crops.map(({ name, area }) => ({
-          name,
-          area: Number(area)
-        }))
-      };
+      try {
+        // Create Firebase auth user
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
 
-      const response = await axios.post(API_URL, apiData);
-      
-      if (response.data) {
-        alert("Farmer Registered Successfully!");
-        onNavigate?.("farmer-profile"); // Use the custom navigation
+        // Format data for API
+        const apiData: FarmerApiData = {
+          farmerName: formData.farmerName,
+          idNumber: formData.idNumber,
+          phoneNumber: formData.phoneNumber,
+          region: formData.region,
+          email: formData.email,
+          firebaseUid: userCredential.user.uid,
+          crops: formData.crops.map(({ name, area }) => ({
+            name,
+            area: Number(area)
+          }))
+        };
+
+        const response = await axios.post(API_URL, apiData);
+        
+        if (response.data) {
+          alert("Farmer Registered Successfully!");
+          onNavigate?.("farmer-profile");
+        }
+      } catch (firebaseErr: any) {
+        // If Firebase auth succeeds but MongoDB save fails, we should clean up the Firebase user
+        if (firebaseErr.response?.status === 400) {
+          // Handle validation errors from backend
+          const errorMessage = firebaseErr.response.data.message;
+          if (firebaseErr.response.data.details) {
+            setError(`${errorMessage}: ${firebaseErr.response.data.details.join(', ')}`);
+          } else {
+            setError(errorMessage);
+          }
+        } else if (firebaseErr.response?.status === 500) {
+          setError("Server error while saving farmer data. Please try again.");
+        } else {
+          setError(firebaseErr.message || "Error registering farmer");
+        }
+        // TODO: Add cleanup of Firebase user if needed
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || "Error registering farmer");
+      if (err.code === 'auth/email-already-in-use') {
+        setError("This email is already registered. Please use a different email.");
+      } else if (err.code === 'auth/invalid-email') {
+        setError("Please enter a valid email address.");
+      } else if (err.code === 'auth/weak-password') {
+        setError("Password should be at least 6 characters long.");
+      } else {
+        setError(err.message || "Error registering farmer");
+      }
     } finally {
       setLoading(false);
     }
@@ -153,6 +227,30 @@ const FarmerRegistration: React.FC<FarmerRegistrationProps> = ({ onNavigate }) =
               <option value="Central">Central</option>
             </select>
           </div>
+          <div>
+            <label htmlFor="email" className="font-bold block mb-1">Email Address *</label>
+            <input
+              type="email"
+              id="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter email address"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="font-bold block mb-1">Password *</label>
+            <input
+              type="password"
+              id="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter password"
+              required
+            />
+          </div>
         </div>
 
         <h3 className="text-lg font-semibold text-green-700 mb-2">Crop Information</h3>
@@ -208,6 +306,8 @@ const FarmerRegistration: React.FC<FarmerRegistrationProps> = ({ onNavigate }) =
                 idNumber: "",
                 phoneNumber: "",
                 region: "",
+                email: "",
+                password: "",
                 crops: [{ id: 1, name: "", area: "" }],
               });
               setError("");
