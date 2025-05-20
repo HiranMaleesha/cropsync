@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import {
   UserIcon,
   PhoneIcon,
@@ -8,19 +8,85 @@ import {
   TreesIcon,
   RulerIcon,
 } from 'lucide-react'
+import axios from 'axios'
+import { useAuth } from '../firebase/auth'
+
+type Farmer = {
+  _id: string;
+  farmerName: string;
+  idNumber: string;
+  phoneNumber: string;
+  region: string;
+  crops: Array<{
+    name: string;
+    area: number;
+  }>;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export function MyProfile() {
-  const farmerData = {
-    id: 'F001',
-    name: 'Punchi Appuhami',
-    idNumber: 'ID78901234',
-    phone: '+1 (555) 123-4567',
-    region: 'Kurunegala',
-    crops: [
-      { name: 'Green Beans', area: 5000 },
-      { name: 'Corn', area: 3000 },
-      { name: 'Long Beans', area: 2500 },
-    ],
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [farmerData, setFarmerData] = useState<Farmer | null>(null);
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    const fetchFarmerProfile = async () => {
+      if (!currentUser?.email) {
+        console.log("No current user or email found:", currentUser);
+        setError("No user email found. Please log in again.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        console.log("Fetching farmer profile for:", currentUser.email);
+        const response = await axios.get(`http://localhost:5000/api/farmers/email/${currentUser.email}`);
+        console.log("Farmer profile response:", response.data);
+        setFarmerData(response.data);
+        setError(null);
+      } catch (err: any) {
+        console.error("Error fetching farmer profile:", err);
+        setError(err.response?.data?.message || "Error fetching farmer profile");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFarmerProfile();
+  }, [currentUser]);
+
+  if (loading) {
+    return (
+      <div className="w-full min-h-screen bg-green-50 p-4 md:p-8 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full min-h-screen bg-green-50 p-4 md:p-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <span className="block sm:inline">{error}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!farmerData) {
+    return (
+      <div className="w-full min-h-screen bg-green-50 p-4 md:p-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center text-gray-600">
+            No profile information found
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -38,8 +104,8 @@ export function MyProfile() {
                 <UserIcon size={32} />
               </div>
               <div className="flex-1">
-                <h2 className="text-2xl font-bold text-emerald-800">{farmerData.name}</h2>
-                <span className="text-emerald-600 font-medium">Farmer ID: {farmerData.id}</span>
+                <h2 className="text-2xl font-bold text-emerald-800">{farmerData.farmerName}</h2>
+                <span className="text-emerald-600 font-medium">Farmer ID: {farmerData._id}</span>
               </div>
             </div>
             <h3 className="text-xl font-bold text-emerald-800 mb-4 pb-2 border-b border-gray-200 flex items-center gap-2">
@@ -60,7 +126,7 @@ export function MyProfile() {
                 <PhoneIcon className="text-emerald-600 w-5 h-5" />
                 <div>
                   <div className="text-sm text-gray-500">Phone Number</div>
-                  <div className="text-gray-900 font-medium">{farmerData.phone}</div>
+                  <div className="text-gray-900 font-medium">{farmerData.phoneNumber}</div>
                 </div>
               </div>
               {/* Region */}
