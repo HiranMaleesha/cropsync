@@ -1,22 +1,68 @@
 import React from "react";
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+
+const containerStyle = {
+  width: '100%',
+  height: '100%',
+};
+
+// Default center to Sri Lanka
+const center = {
+  lat: 7.8731,
+  lng: 80.7718,
+};
+
 export function RegionalMap() {
-  // In a real implementation, this would use a mapping library like Leaflet
-  return (
-    <div className="relative h-72 bg-gray-100 rounded-md overflow-hidden">
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-500 mb-2">Interactive Map</p>
-          <p className="text-sm text-gray-400">
-            Regional agricultural activity visualization would be displayed here
-          </p>
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || '',
+  });
+
+  const [map, setMap] = React.useState<google.maps.Map | null>(null);
+
+  const onLoad = React.useCallback(function callback(map: google.maps.Map) {
+    const bounds = new window.google.maps.LatLngBounds(center);
+    map.fitBounds(bounds);
+    setMap(map);
+  }, []);
+
+  const onUnmount = React.useCallback(function callback() {
+    setMap(null);
+  }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="relative h-72 bg-gray-100 rounded-md overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-gray-500 mb-2">Loading Map...</p>
+          </div>
         </div>
       </div>
-      {/* These would be actual map markers in the real implementation */}
-      <div className="absolute top-1/4 left-1/3 w-4 h-4 bg-green-500 rounded-full"></div>
-      <div className="absolute top-1/3 left-1/2 w-6 h-6 bg-green-600 rounded-full"></div>
-      <div className="absolute top-1/2 left-1/4 w-5 h-5 bg-green-400 rounded-full"></div>
-      <div className="absolute bottom-1/3 right-1/4 w-4 h-4 bg-amber-500 rounded-full"></div>
-      <div className="absolute bottom-1/4 right-1/3 w-3 h-3 bg-green-500 rounded-full"></div>
+    );
+  }
+
+  return (
+    <div className="h-72 rounded-md overflow-hidden">
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={7}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+        options={{
+          styles: [
+            {
+              featureType: "poi",
+              elementType: "labels",
+              stylers: [{ visibility: "off" }],
+            },
+          ],
+        }}
+      >
+        {/* Add markers here based on your data */}
+        <Marker position={center} />
+      </GoogleMap>
     </div>
   );
 }
